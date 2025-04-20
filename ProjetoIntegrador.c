@@ -274,8 +274,8 @@ int main()
         set_one_led(led_r, led_g, led_b);
 
         // Imprimir valores no monitor serial
-        printf("Valor do potenciometro X: %c\n", vrx_value);
-        printf("Valor do potenciometro Y: %c\n", vry_value);
+        printf("Valor do potenciometro X: %u\n", vrx_value);
+        printf("Valor do potenciometro Y: %u\n", vry_value);
         sleep_ms(50);
     }
 }
