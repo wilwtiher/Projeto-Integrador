@@ -244,9 +244,9 @@ int main()
         vry_value = vry_value - 2048;
         if(abs(vrx_value) > abs(vry_value)){
             if(vrx_value > 0){
-                contador = 0;
-            } else{
                 contador = 1;
+            } else{
+                contador = 0;
             }
         } else{
             if(vry_value > 0){
@@ -260,6 +260,6 @@ int main()
         // Imprimir valores no monitor serial
         printf("Valor do potenciometro X: %c\n", vrx_value);
         printf("Valor do potenciometro Y: %c\n", vry_value);
-        sleep_ms(250);
+        sleep_ms(50);
     }
 }
