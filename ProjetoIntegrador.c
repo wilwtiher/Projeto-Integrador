@@ -34,10 +34,10 @@
 #define botao_pinA 5 // Botão A = 5, Botão B = 6 , BotãoJoy = 22
 #define botao_pinB 6 // Botão A = 5, Botão B = 6 , BotãoJoy = 22
 // Joysticks
-#define VRY_PIN 26   // Pino do Joystick Y
-#define VRX_PIN 27   // Pino do Joystick X
+#define VRY_PIN 26 // Pino do Joystick Y
+#define VRX_PIN 27 // Pino do Joystick X
 // Buzzer
-#define buzzer 10    // Pino do buzzer A
+#define buzzer 10 // Pino do buzzer A
 
 // Variáveis globais
 static volatile uint32_t last_time = 0; // Armazena o tempo do último evento (em microssegundos)
@@ -50,40 +50,38 @@ static volatile int8_t contador = 0; // Variável para qual frame será chamado 
 int16_t displayX = 0;
 int16_t displayY = 0;
 // Variável para os frames da matriz de LEDs
-bool led_buffer[4][NUM_PIXELS] = {
-    {
-        // Seta para esquerda
-        0, 0, 1, 0, 0, 
-        0, 1, 0, 0, 0, 
-        1, 1, 1, 1, 1, 
-        0, 1, 0, 0, 0, 
-        0, 0, 1, 0, 0  
-    },
-    {
-        // Seta para direita
-        0, 0, 1, 0, 0, 
-        0, 0, 0, 1, 0, 
-        1, 1, 1, 1, 1, 
-        0, 0, 0, 1, 0, 
-        0, 0, 1, 0, 0  
-    },
-    {
-        // Seta para cima (invertida)
-        0, 0, 1, 0, 0, 
-        0, 0, 1, 0, 0, 
-        1, 0, 1, 0, 1, 
-        0, 1, 1, 1, 0, 
-        0, 0, 1, 0, 0  
-    },
-    {
-        // Seta para baixo (invertida)
-        0, 0, 1, 0, 0, 
-        0, 1, 1, 1, 0, 
-        1, 0, 1, 0, 1, 
-        0, 0, 1, 0, 0, 
-        0, 0, 1, 0, 0  
-    }
-};
+bool led_buffer[5][NUM_PIXELS] = {
+    {// Seta para esquerda
+     0, 0, 1, 0, 0,
+     0, 1, 0, 0, 0,
+     1, 1, 1, 1, 1,
+     0, 1, 0, 0, 0,
+     0, 0, 1, 0, 0},
+    {// Seta para direita
+     0, 0, 1, 0, 0,
+     0, 0, 0, 1, 0,
+     1, 1, 1, 1, 1,
+     0, 0, 0, 1, 0,
+     0, 0, 1, 0, 0},
+    {// Seta para cima (invertida)
+     0, 0, 1, 0, 0,
+     0, 0, 1, 0, 0,
+     1, 0, 1, 0, 1,
+     0, 1, 1, 1, 0,
+     0, 0, 1, 0, 0},
+    {// Seta para baixo (invertida)
+     0, 0, 1, 0, 0,
+     0, 1, 1, 1, 0,
+     1, 0, 1, 0, 1,
+     0, 0, 1, 0, 0,
+     0, 0, 1, 0, 0},
+    {// Cruz
+     0, 0, 0, 0, 0,
+     0, 0, 1, 0, 0,
+     0, 1, 1, 1, 0,
+     0, 0, 1, 0, 0,
+     0, 0, 0, 0, 0}
+    };
 
 // Funções para matriz LEDS
 static inline void put_pixel(uint32_t pixel_grb)
@@ -212,9 +210,9 @@ int main()
 
     ws2812_program_init(pio, sm, offset, WS2812_PIN, 800000, IS_RGBW);
 
-
     // Loop Infinito
-    while (true) {
+    while (true)
+    {
         // Quadrado que movimenta
         adc_select_input(1);
         int16_t vrx_value = adc_read();
@@ -232,7 +230,9 @@ int main()
         if (alarme)
         {
             pwm_set_gpio_level(buzzer, 2048);
-        }else{
+        }
+        else
+        {
             pwm_set_gpio_level(buzzer, 0);
         }
         // Acender LEDs
@@ -242,17 +242,33 @@ int main()
         // Verifica qual o lado mais puxado
         vrx_value = vrx_value - 2048;
         vry_value = vry_value - 2048;
-        if(abs(vrx_value) > abs(vry_value)){
-            if(vrx_value > 0){
-                contador = 1;
-            } else{
-                contador = 0;
+        if ((abs(vrx_value) + abs(vry_value)) < 200)
+        {
+            contador = 4;
+        }
+        else
+        {
+            if (abs(vrx_value) > abs(vry_value))
+            {
+                if (vrx_value > 0)
+                {
+                    contador = 1;
+                }
+                else
+                {
+                    contador = 0;
+                }
             }
-        } else{
-            if(vry_value > 0){
-                contador = 2;
-            } else{
-                contador = 3;
+            else
+            {
+                if (vry_value > 0)
+                {
+                    contador = 2;
+                }
+                else
+                {
+                    contador = 3;
+                }
             }
         }
         set_one_led(led_r, led_g, led_b);
