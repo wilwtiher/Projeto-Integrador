@@ -1,6 +1,6 @@
 # Aluno: Wilton Lacerda Silva Júnior
 ## Matrícula: TIC370100193
-# Video explicativo: https://youtu.be/UCPeHgpcwes
+# Video explicativo: https://youtu.be/huCbdb1L5Qg
 # Projeto Integrador - Embarcatech
 O objetivo do projeto é revisar e consolidar os conhecimentos adquiridos sobre o microcontrolador RP2040 e os principais recursos disponíveis na placa de desenvolvimento BitDogLab.
 ## Funcionalidades
